@@ -31,7 +31,7 @@ public class TaskController {
   @PostMapping // transforma o metodo abaixo em um endpoint HTTP do tipo POST
   public ResponseEntity<Task> createTask(@RequestBody Task task) {
     Task savedTask = taskService.createTask(task);
-    return  ResponseEntity.ok(savedTask);
+    return ResponseEntity.status(201).body(savedTask);
   }
 
   // lista todas as tarefas
