@@ -2,6 +2,7 @@ package com.marcela.todo.controller;
 
 import com.marcela.todo.model.Task;
 import com.marcela.todo.service.TaskService;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class TaskController {
 
   // cria nova tarefa
   @PostMapping // transforma o metodo abaixo em um endpoint HTTP do tipo POST
-  public ResponseEntity<Task> createTask(@RequestBody Task task) {
+  public ResponseEntity<Task> createTask(@Valid @RequestBody Task task) {
     Task savedTask = taskService.createTask(task);
     return ResponseEntity.status(201).body(savedTask);
   }
