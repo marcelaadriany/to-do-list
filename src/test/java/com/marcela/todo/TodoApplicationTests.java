@@ -7,7 +7,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 class TodoApplicationTests {
 
 	@Test
-	void contextLoads() {
+	void testCreateTodoSuccess() {
 	}
 
+	@Test
+	void testCreateTodoFailure() {
+	}
 }
