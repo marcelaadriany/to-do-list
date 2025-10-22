@@ -9,6 +9,7 @@ class TodoApplicationTests {
 
 	@Test
 	void contextLoads() {
+		// Esse teste serve só pra garantir que o Spring inicializa sem erro
 	}
 
 }
