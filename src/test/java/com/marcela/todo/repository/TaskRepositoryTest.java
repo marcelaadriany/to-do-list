@@ -1,73 +1,74 @@
 package com.marcela.todo.repository;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.marcela.todo.controller.TaskController;
 import com.marcela.todo.model.Task;
-import com.marcela.todo.service.TaskService;
-import java.time.LocalDateTime;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-// a notacao abaixo é pra remover o aviso de depreciacao do MockBean
-// pois ele esta marcado para remocao e será substituido pelo @ReplaceBean
-@SuppressWarnings("removal")
-@WebMvcTest(TaskController.class)
-public class TaskRepositoryTest {
+import java.util.List;
+import java.util.Optional;
 
-  @Autowired
-  private MockMvc mockMvc;
+import static org.assertj.core.api.Assertions.assertThat;
 
-  @MockBean
-  private TaskService taskService;
+@DataJpaTest
+class TaskRepositoryTest {
 
   @Autowired
-  private ObjectMapper objectMapper; // converte objetos para JSON
+  private TaskRepository taskRepository;
 
-  private Task task1;
-  private Task task2;
-
-  @BeforeEach
-  void setup () {
-    task1 = new Task();
-    task1.setId(1L);
-    task1.setTitle("Comprar leite");
-    task1.setDescription("Ir ao supermercado");
-    task1.setDone(false);
-    task1.setCreatedAt(LocalDateTime.now());
-
-    task2 = new Task();
-    task2.setId(2L);
-    task2.setTitle("Estudar Java");
-    task2.setDescription("Revisar Java");
-    task2.setDone(false);
-    task2.setCreatedAt(LocalDateTime.now());
-  }
-
-  // POST / tasks - sucesso
   @Test
-  @DisplayName("POST /tasks - deve criar uma task e retornar 201")
-  void createTask_success() throws Exception {
-    // Arrange> quando o service salvar, retorna a task com id preenchido
-    when(taskService.createTask(any(Task.class))).thenReturn(task1);
-    // Act & Assert
-    mockMvc.perform(post("/tasks")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(task1))) // envia JSON
-        .andExpect(status().isCreated())
-        .andExpect(jsonPath("$.id").value(1))
-        .andExpect(jsonPath("$.title").value("Comprar leite"));
+  @DisplayName("Deve salvar uma task no banco")
+  void saveTask_success() {
+    Task task = new Task();
+    task.setTitle("Repository test");
+    task.setDescription("Testando salvar task");
+
+    Task saved = taskRepository.save(task);
+
+    assertThat(saved.getId()).isNotNull();
+    assertThat(saved.getTitle()).isEqualTo(task.getTitle());
   }
 
+  @Test
+  @DisplayName("Deve retornar lista de tasks")
+  void findAllTasks_success() {
+    Task task1 = new Task();
+    task1.setTitle("Task 1");
+    taskRepository.save(task1);
+
+    Task task2 = new Task();
+    task2.setTitle("Task 2");
+    taskRepository.save(task2);
+
+    List<Task> tasks = taskRepository.findAll();
+
+    assertThat(tasks).hasSize(2);
+  }
+
+  @Test
+  @DisplayName("Deve buscar task por ID")
+  void findById_success() {
+    Task task = new Task();
+    task.setTitle("Buscar por ID");
+    task = taskRepository.save(task);
+
+    Optional<Task> found = taskRepository.findById(task.getId());
+
+    assertThat(found).isPresent();
+    assertThat(found.get().getTitle()).isEqualTo("Buscar por ID");
+  }
+
+  @Test
+  @DisplayName("Deve deletar task por ID")
+  void deleteById_success() {
+    Task task = new Task();
+    task.setTitle("Task a deletar");
+    task = taskRepository.save(task);
+
+    taskRepository.deleteById(task.getId());
+
+    Optional<Task> deleted = taskRepository.findById(task.getId());
+    assertThat(deleted).isEmpty();
+  }
 }
