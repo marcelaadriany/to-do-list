@@ -129,3 +129,7 @@ $ http DELETE :8080/tasks/1
 
 (no content)
 ```
+
+Desenvolvido por Marcela Andrade 💻
+📍 Niterói – RJ
+🔗 [LinkedIn](https://www.linkedin.com/in/marcelaadriany/)
