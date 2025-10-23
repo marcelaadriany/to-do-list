@@ -6,6 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
-  // aqui eu posso criar métodos customizados
-  // exemplo: List<Task> findByDoneFalse(); busca as tasks que não foram finalizadas
 }
