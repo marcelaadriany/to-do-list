@@ -5,6 +5,8 @@
 API REST para gerenciar tarefas (CRUD), desenvolvida com Spring Boot. 
 Permite criar, listar, atualizar, marcar como concluída e excluir tarefas.
 
+---
+
 ## Tecnologias
 
 - [Spring Boot](https://spring.io/projects/spring-boot)
@@ -13,6 +15,8 @@ Permite criar, listar, atualizar, marcar como concluída e excluir tarefas.
 - [SpringDoc OpenAPI 3](https://springdoc.org/v2/#spring-webflux-support)
 - [Mysql](https://dev.mysql.com/downloads/)
 - [H2 Database (para testes](https://www.h2database.com/html/main.html)
+
+---
 
 ## Práticas adotadas
 
@@ -23,6 +27,8 @@ Permite criar, listar, atualizar, marcar como concluída e excluir tarefas.
 - Injeção de Dependências
 - Tratamento centralizados de erros
 - Geração automática de documentação Swagger/OpenAPI 3
+
+---
 
 ## Como Executar
 
@@ -41,6 +47,8 @@ mvn spring-boot:run
 
 A aplicação estará disponível em: [localhost:8080](http://localhost:8080).
 A documentação (Swagger UI) pode ser acessada em: [localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+
+---
 
 ## API Endpoints
 - Criar tarefa
@@ -130,6 +138,12 @@ $ http DELETE :8080/tasks/1
 (no content)
 ```
 
-Desenvolvido por Marcela Andrade 💻
-📍 Niterói – RJ
-🔗 [LinkedIn](https://www.linkedin.com/in/marcelaadriany/)
+---
+
+<p align="center">
+  Desenvolvido por <strong>Marcela Andrade</strong> 💻  
+  <br>
+  📍 Niterói – RJ  
+  <br>
+  🔗 <a href="https://www.linkedin.com/in/marcelaadriany/">LinkedIn</a>
+</p>
